@@ -1,0 +1,10 @@
+{
+  "id": "review-tracker",
+  "name": "Review Tracker",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Obsidian plugin for tracking interval-based review of notes.",
+  "author": "Vladyslav Voloshyn",
+  "authorUrl": "https://github.com/Voloshyn1",
+  "main": "main.js"
+}
