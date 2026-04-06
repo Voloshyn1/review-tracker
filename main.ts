@@ -69,8 +69,8 @@ export default class ReviewTrackerPlugin extends Plugin {
     });
 
     this.addCommand({
-      id: "toggle-review-tracker",
-      name: "Toggle Review Tracker",
+      id: "toggle-view",
+      name: "Toggle view",
       callback: () => {
         this.toggleView();
       },
@@ -150,113 +150,6 @@ class ReviewTrackerView extends ItemView {
       const container = this.containerEl.children[1];
       container.empty();
 
-      const style = document.createElement("style");
-      style.textContent = `
-        .repeat-refresh-button {
-          background-color: var(--background-primary);
-          color: var(--text-normal);
-          border: 1px solid var(--background-modifier-border);
-          padding: 6px 14px;
-          border-radius: 6px;
-          cursor: pointer;
-          font-size: 0.9em;
-          font-weight: 500;
-          transition: background-color 0.15s ease, transform 80ms ease, filter 120ms ease;
-          margin-bottom: 12px;
-        }
-
-
-        .repeat-refresh-button + .repeat-refresh-button {
-          margin-left: 8px;
-        }
-
-
-        .repeat-refresh-button:hover,
-        .repeat-refresh-button:focus-visible,
-        .repeat-refresh-button:focus {
-          background-color: var(--background-secondary-alt);
-          box-shadow: none !important;
-          outline: none !important;
-        }
-
-      
-        .repeat-refresh-button:active {
-          transform: translateY(0.5px) scale(0.985);
-          animation: rr-btn-flash 140ms ease-out;
-        }
-        @keyframes rr-btn-flash {
-          0%   { filter: none; }
-          55%  { filter: brightness(1.10); }
-          100% { filter: none; }
-        }
-
-        .repeat-section {
-          margin: 1.5em 0;
-          padding: 1em;
-          border-left: 4px solid var(--interactive-accent);
-          background-color: var(--background-secondary-alt);
-          border-radius: 6px;
-        }
-
-        .repeat-section-title {
-          margin-top: 0;
-          font-size: 1.2em;
-        }
-
-        .repeat-file-list{
-          list-style: none;
-          padding-left: 1em;
-          margin: 0;
-          display: flex;           
-          flex-direction: column;
-          gap: 8px;               
-        }
-
-        .repeat-file-item{
-          display: grid;
-          grid-template-columns: 16px 1fr; 
-          align-items: center;             
-          column-gap: 8px;
-          padding-block: 2px;              
-        }
-
-        .repeat-file-link{
-          text-decoration: none;
-          color: var(--text-accent);
-          min-width: 0;
-          max-width: 100%;
-          white-space: normal;
-          overflow-wrap: anywhere;
-          word-break: break-word;
-          line-height: 1.35; 
-        }
-        .repeat-file-link:hover{ text-decoration: underline; }
-
-        .repeat-status-box{
-          width: 12px;
-          height: 12px;
-          border: 1px solid var(--text-faint);
-          border-radius: 3px;
-          cursor: pointer;
-          align-self: center;  
-          flex: none;           
-          transform: translateY(0.5px); 
-        }
-        .repeat-status-box.read{ background-color: var(--color-green); }
-
-
-        .repeat-empty {
-          font-style: italic;
-          color: var(--text-muted);
-        }
-
-        .repeat-content h2 {
-          margin-bottom: 0.5em;
-        }
-      `;
-
-
-    document.head.appendChild(style);
 
     const statsButton = container.createEl("button", { text: "Statistics", cls: "repeat-refresh-button" });
 

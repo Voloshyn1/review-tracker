@@ -36,7 +36,6 @@ export class IntervalsModal extends Modal {
     contentEl.addClass("rr-intervals-modal");
     this.modalEl.addClass("rr-intervals");
 
-    attachStyleOnce();
 
     this.baseTs = findFrontmatterStart(this.app, this.file.path);
 
@@ -99,24 +98,22 @@ export class IntervalsModal extends Modal {
       pill.setAttr("data-days", String(d));
       pill.setAttr("aria-label", tooltip);
 
-      //  v*loshyn authop
+
       pill.addEventListener("click", () => {
         if (!this.editing) return;
         const day = Number(pill.getAttr("data-days"));
         const wasDone = this.draftDone.has(day);
 
         if (wasDone) {
-          // стало «не зроблено»
+
           this.draftDone.delete(day);
           pill.classList.remove("pill-done");
           pill.classList.add("pill-pending");
-          // повертаємо релевантні підсвітки
           pill.toggleClass("pill-missed",   isMissed(day));
           pill.toggleClass("pill-tomorrow", isTomorrow(day));
         } else {
-          // стало «зроблено»
+
           this.draftDone.add(day);
-          // знімаємо будь-які червоні/жовті, ставимо зелене
           pill.classList.remove("pill-pending", "pill-missed", "pill-tomorrow");
           pill.classList.add("pill-done");
         }
@@ -132,7 +129,6 @@ export class IntervalsModal extends Modal {
 
 
 
-    // нижня панель дій
     this.actionsEl = contentEl.createEl("div", { cls: "rr-actions rr-actions-bottom" });
     this.editBtn = this.actionsEl.createEl("button", { text: "Edit", cls: "rr-btn rr-btn-secondary" });
     this.editBtn.onclick = () => this.toggleEdit();
@@ -144,19 +140,18 @@ export class IntervalsModal extends Modal {
     this.updateProgress();
   }
 
-  /** Вхід/вихід із режиму редагування */
   private toggleEdit() {
     const goingToEdit = !this.editing;
 
     if (goingToEdit) {
-      // входимо в редагування
+
       this.editing = true;
       this.modalEl.addClass("is-editing");
       this.editBtn.textContent = "Cancel";
       return;
     }
 
-    // виходимо з редагування (без збереження = відкотити чернетку)
+
     this.editing = false;
     this.modalEl.removeClass("is-editing");
     this.editBtn.textContent = "Edit";
@@ -164,16 +159,15 @@ export class IntervalsModal extends Modal {
     if (this.dirty) {
       // скасувати незбережені зміни
       this.draftDone = new Set(this.initialDone);
-      this.refreshPillsFrom(this.initialDone); // повернути класи і прибрати .pill-changed
+      this.refreshPillsFrom(this.initialDone); 
       this.dirty = false;
       this.saveBtn.disabled = true;
     }
     this.updateProgress();
   }
 
-  /** Перемальовує всі пілюлі відповідно до переданого набору "done" */
+
   private refreshPillsFrom(source: Set<number>) {
-    // перераховуємо базові дати щоразу — дешево і надійно
     let createdUTC: number | null = null;
     let todayUTC: number | null = null;
     let tomorrow: number | null = null;
@@ -200,7 +194,7 @@ export class IntervalsModal extends Modal {
       el.toggleClass("pill-done", done);
       el.toggleClass("pill-pending", !done);
 
-      // скидаємо підсвітки і, якщо треба, додаємо знову
+
       el.removeClass("pill-missed");
       el.removeClass("pill-tomorrow");
       if (!done) {
@@ -251,7 +245,7 @@ export class IntervalsModal extends Modal {
   }
 }
 
-/* ===== helpers ===== */
+
 function dedupeAndSort(values: number[]): number[] {
   const uniq = Array.from(new Set(values.filter((v) => Number.isFinite(v) && v > 0)));
   uniq.sort((a, b) => a - b);
@@ -283,65 +277,3 @@ function formatDate(date: Date): string {
   return `${dd}.${mm}.${yyyy}`;
 }
 
-let styleAttached = false;
-function attachStyleOnce(): void {
-  if (styleAttached) return;
-  styleAttached = true;
-
-  const style = document.createElement("style");
-  style.id = "rr-intervals-modal-style";
-  style.textContent = `
-  .modal.rr-intervals { --rr-left-pad: 0px; --rr-x-space: 44px; --rr-title-right-pad: 8px; }
-  .modal.rr-intervals .modal-title {
-    padding-left: var(--rr-left-pad);
-    padding-right: var(--rr-title-right-pad);
-    max-width: calc(100% - var(--rr-x-space) - var(--rr-title-right-pad));
-    white-space: normal; word-break: break-word; line-height: 1.25; margin: 0;
-  }
-  .modal.rr-intervals .modal-content { padding-left: var(--rr-left-pad); }
-
-  .modal .rr-intervals-modal { display: flex; flex-direction: column; gap: 12px; padding-top: 4px; }
-  .rr-intervals-modal .rr-int-meta { display: flex; justify-content: flex-start; align-items: baseline; gap: 12px; }
-  .rr-intervals-modal .rr-progress { opacity: .8; font-size: 12px; }
-
-  .rr-intervals-modal .rr-pills-wrap {
-    display: flex; flex-wrap: wrap; gap: 6px; max-height: 55vh; overflow: auto; padding: 2px 0 6px; margin-left: 0;
-  }
-
-  .rr-intervals-modal .pill {
-    display: inline-block; border-radius: 999px; padding: 2px 6px; font-size: .72em; line-height: 1.3em;
-    margin: 0; user-select: none; white-space: nowrap; border: 1px solid var(--background-modifier-border);
-    transition: box-shadow .12s ease, transform .02s ease;
-  }
-  .rr-intervals-modal .pill-done { background: #4caf50; color:#fff; border-color: transparent; }
-  .rr-intervals-modal .pill-pending { background: #55585e; color:#bbb; }
-  .rr-intervals-modal .pill-tomorrow {
-    background: #F4D03F;
-    color: #222;
-  }
-  .rr-intervals-modal .pill-missed {
-    background-color: #c84537ff;
-    color: #fff;
-  }
-
-
-  /* hover підсвітка тільки в режимі редагування */
-  .modal.rr-intervals.is-editing .pill { cursor: pointer; }
-  .modal.rr-intervals.is-editing .pill:hover { box-shadow: 0 0 0 2px var(--interactive-accent); }
-
-  /* пілюля змінена відносно початкового стану (поки не збережено) */
-  .rr-intervals-modal .pill-changed { box-shadow: 0 0 0 2px var(--interactive-accent); }
-
-  .rr-intervals-modal .rr-actions-bottom {
-    display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid var(--background-modifier-border);
-    padding-top: 10px; position: sticky; bottom: 0; background: var(--background-primary);
-  }
-  .rr-intervals-modal .rr-btn {
-    padding: 6px 12px; border-radius: 8px; font-size: 12px; line-height: 1;
-    border: 1px solid var(--background-modifier-border); background: var(--background-modifier-form-field); cursor: pointer;
-  }
-  .rr-intervals-modal .rr-btn[disabled] { opacity: .6; cursor: default; }
-  .rr-intervals-modal .rr-btn-primary { background: var(--interactive-accent); color: var(--text-on-accent); border-color: transparent; }
-  `;
-  document.head.appendChild(style);
-}

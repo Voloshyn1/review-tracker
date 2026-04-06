@@ -1,18 +1,13 @@
 import { App, PluginSettingTab, Setting, SliderComponent } from "obsidian";
 
-/**
- * Data structure representing a single folder. Each folder has a name,
- * collapsed state and an array of file paths (e.g. "folder/note.md").
- */
+
 export interface FolderData {
   name: string;
   collapsed: boolean;
   files: string[];
 }
 
-/**
- * Overall plugin settings definition. These values are persisted to disk.
- */
+
 export interface ReviewTrackerSettings {
   tag: string;
   intervals: number[];
@@ -32,9 +27,7 @@ export interface ReviewTrackerSettings {
   showBackgroundGrid?: boolean;
 }
 
-/**
- * Default settings used when the plugin is first installed.
- */
+
 export const DEFAULT_SETTINGS: ReviewTrackerSettings = {
   tag: "#repeat",
   intervals: [1, 3, 7, 14, 30, 60],
@@ -66,7 +59,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
     const { containerEl } = this;
     containerEl.empty();
 
-    containerEl.createEl("h2", { text: "Review Tracker Settings" });
+    new Setting(containerEl).setName("Review Tracker Settings").setHeading();
 
     // Tag input
     new Setting(containerEl)
@@ -105,62 +98,6 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
           }),
       );
 
-
-    const styleId = "review-tracker-graph-style";
-    if (!document.getElementById(styleId)) {
-      const styleEl = document.createElement("style");
-      styleEl.id = styleId;
-      styleEl.textContent = `
-        /* Wrapper for the forgetting curve graph */
-        .rr-interval-graph-wrapper {
-          margin-top: 0.75em;
-          width: 100%;
-          border: 1px solid var(--background-modifier-border);
-          border-radius: 6px;
-          background-color: var(--background-primary);
-          box-sizing: border-box;
-          overflow: hidden;
-          height: 260px;
-        }
-        .rr-interval-graph-wrapper canvas {
-          display: block;
-          width: 100%;
-          height: 260px;
-        }
-        /* Updated scroll bar wrapper and content */
-        .rr-scroll-bar-wrapper {
-          margin-top: 0.5em;
-          width: 100%;
-          overflow-x: auto;
-          overflow-y: hidden;
-          height: 18px; 
-          box-sizing: border-box;
-        }
-        .rr-scroll-bar-content {
-          height: 1px;
-          min-width: 200%; 
-        }
-
-        .rr-scroll-bar-wrapper::-webkit-scrollbar { height: 12px; }
-
-
-        .rr-scroll-bar-wrapper::-webkit-scrollbar-thumb {
-          background: var(--rr-scroll-thumb-color, var(--interactive-accent));
-          border-radius: 8px;
-          /* «ореол» навколо бігунка — завжди видно на будь-якому треку */
-          border: 2px solid var(--rr-scroll-halo-color, var(--background-primary));
-          /* легкий внутрішній контур для читабельності на насичених акцентах */
-          box-shadow: inset 0 0 0 1px rgba(0,0,0,.15);
-        }
-        .rr-scroll-bar-wrapper:hover::-webkit-scrollbar-thumb { filter: brightness(1.05); }
-        .rr-scroll-bar-wrapper:active::-webkit-scrollbar-thumb { filter: brightness(0.95); }
-
-        .rr-scroll-bar-wrapper::-webkit-scrollbar-track {
-          background: var(--background-modifier-border);
-        }
-      `;
-      document.head.appendChild(styleEl);
-    }
 
     // Graph container
     const graphWrapper = containerEl.createDiv({

@@ -27,12 +27,12 @@ Once the plugin becomes available in the official Obsidian Community Plugins cat
 If the plugin has not yet been added to the Community Plugins catalog:
 
 1. Go to the latest **GitHub Release**
-2. Download `main.js` and `manifest.json`
+2. Download `main.js`, `manifest.json`, and `styles.css`
 3. Create the following folder inside your vault:
 
 `/.obsidian/plugins/review-tracker/`
 
-4. Copy `main.js` and `manifest.json` into this folder
+4. Copy `main.js`, `manifest.json`, and `styles.css` into this folder
 5. Restart Obsidian
 6. Open **Settings** → **Community plugins**
 7. Find **Review Tracker** in the list of installed plugins
@@ -83,7 +83,7 @@ A simple example:
 - **tags:** `repeat`
 - **date:** `2026-03-31`
 
-Sourсe mode:
+Source mode:
 
 ![Properties full](assets/screenshots/properties-full.png)
 
@@ -121,14 +121,12 @@ This window shows **the notes that need to be reviewed today**.
 
 Notes are grouped into sections based on review intervals:
 
-- **1 days old** — this section shows notes for which the first review interval has been reached, meaning they should be reviewed 1 day after the starting date
+- **1 day old** — this section shows notes for which the first review interval has been reached, meaning they should be reviewed 1 day after the starting date
 - **3 days old** — this section shows notes for which the 3-day review interval has been reached
 
 ### Statistics Button
 
 The **Statistics** button opens a separate statistics window where you can see all notes, their intervals, review progress, hints, missed intervals, and other details.
-
-
 
 
 
