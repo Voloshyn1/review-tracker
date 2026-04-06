@@ -133,17 +133,17 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
           width: 100%;
           overflow-x: auto;
           overflow-y: hidden;
-          height: 18px; /* збільшено для кращої видимості */
+          height: 18px; 
           box-sizing: border-box;
         }
         .rr-scroll-bar-content {
           height: 1px;
-          min-width: 200%; /* гарантоване переповнення */
+          min-width: 200%; 
         }
-        /* Локальний WebKit scrollbar для macOS (та Chromium/Electron) */
+
         .rr-scroll-bar-wrapper::-webkit-scrollbar { height: 12px; }
 
-        /* Використовуємо змінні з JS: --rr-scroll-thumb-color та --rr-scroll-halo-color */
+
         .rr-scroll-bar-wrapper::-webkit-scrollbar-thumb {
           background: var(--rr-scroll-thumb-color, var(--interactive-accent));
           border-radius: 8px;
@@ -309,7 +309,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
       return Math.min(userMax ?? defaultGraphRange, ZOOM_LIMIT);
     };
 
-    /** ⬅️ NEW: скільки днів припадає на 1 піксель поточного вікна */
+
     const getDaysPerPx = () => {
       const wrapperWidth =
         graphWrapper.clientWidth || containerEl.clientWidth || 400;
@@ -319,13 +319,13 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
       return getCurrentMaxDay() / chartW;
     };
 
-    /** ⬅️ NEW: єдине джерело правди для виставлення scrollOffset */
+
     const setScrollOffset = (newOffset: number) => {
       const clamped = Math.max(0, Math.min(newOffset, maxScrollOffset));
       if (clamped === scrollOffset) return;
       scrollOffset = clamped;
 
-      // синхронізуємо "повзунок" унизу, але не запускаємо його scroll-handler
+
       const availableScroll =
         scrollBarWrapper.scrollWidth - scrollBarWrapper.clientWidth;
       if (availableScroll > 0 && maxScrollOffset > 0) {
@@ -341,11 +341,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
       drawGraph();
     };
 
-    /**
-     * Updated scroll limit calculator.
-     * Ми задаємо ширину scrollBarContent у пікселях відносно ширини видимого контейнера.
-     * Потім у requestAnimationFrame читаємо scrollWidth, щоб гарантувати, що layout перераховано.
-     */
+
     const updateScrollLimits = () => {
       const raw: number[] = Array.isArray(this.plugin.settings.intervals)
         ? this.plugin.settings.intervals
@@ -405,7 +401,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
       }
     };
 
-    // Graph drawing logic (не змінювався)
+
     const drawGraph = () => {
       if (!canvas || !this.plugin) return;
       const wrapperWidth =
@@ -948,7 +944,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Enable hover tooltips in Statistics")
-      .setDesc("Show delayed popups when hovering rows in the stats modal.")
+      .setDesc("Show delayed popups when hovering rows in the Review Tracker Statistics.")
       .addToggle((toggle) =>
         toggle
           .setValue(this.plugin.settings.enableStatsHoverTooltips)
@@ -960,7 +956,7 @@ export class ReviewTrackerSettingTab extends PluginSettingTab {
 
     new Setting(containerEl)
       .setName("Tomorrow hint (highlight next-day interval)")
-      .setDesc("When enabled, highlights the interval pill that equals 'days since creation + 1' (i.e., due tomorrow) in the Stats table.")
+      .setDesc("When enabled, highlights the interval pill that equals 'days since creation + 1' (i.e., due tomorrow) in the Review Tracker Statistics.")
       .addToggle(t => t
         .setValue(!!this.plugin.settings.highlightOneDayInStats)
         .onChange(async (v) => {
