@@ -38,6 +38,8 @@ If the plugin has not yet been added to the Community Plugins catalog:
 7. Find **Review Tracker** in the list of installed plugins
 8. Enable it
 
+![Community plugins](assets/screenshots/Community plugins.png)
+
 ## Recommendation for Use
 
 For better retention of information, it is recommended not to rely solely on rereading a note. A much more effective approach is active recall before reviewing it again.
