@@ -38,7 +38,7 @@ If the plugin has not yet been added to the Community Plugins catalog:
 7. Find **Review Tracker** in the list of installed plugins
 8. Enable it
 
-![Community plugins](assets/screenshots/Community plugins.png)
+![Community plugins](assets/screenshots/community-plugins.png)
 
 ## Recommendation for Use
 
