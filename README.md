@@ -40,6 +40,8 @@ If the plugin has not yet been added to the Community Plugins catalog:
 
 ![Community plugins](assets/screenshots/community-plugins.png)
 
+і
+
 ## Recommendation for Use
 
 For better retention of information, it is recommended not to rely solely on rereading a note. A much more effective approach is active recall before reviewing it again.
