@@ -6,6 +6,5 @@
   "description": "Track interval-based review of notes.",
   "author": "Vladyslav Voloshyn",
   "authorUrl": "https://github.com/Voloshyn1",
-  "isDesktopOnly": false,
-  "main": "main.js"
+  "isDesktopOnly": false
 }
